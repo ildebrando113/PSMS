@@ -1,4 +1,4 @@
-package Dao;
+package it.enaip.stage.dao;
 
 import it.enaip.stage.model.Stuff;
 import java.sql.Connection;
@@ -85,7 +85,7 @@ public class DaoStuff implements StuffDao{
     @Override
     public boolean save (Stuff stuff) throws SQLException{
         boolean rowInserted= false;
-        DaoStuff da= new DaoStuff();
+        DaoStuff da= DaoStuff.getInstance();
         int index= da.getMaxIndex();
         index+=1;
         stuff.setId(index);

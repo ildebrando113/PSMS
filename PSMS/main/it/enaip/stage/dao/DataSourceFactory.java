@@ -3,24 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Dao;
-
-import java.sql.Connection;
-
-import java.sql.DriverManager;
-import java.sql.SQLException;
+package it.enaip.stage.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
  * @author Davide
  */
-class DataSourceFactory {
+public class DataSourceFactory {
 
     public static Connection getConnection() {
         Connection conn = null;
