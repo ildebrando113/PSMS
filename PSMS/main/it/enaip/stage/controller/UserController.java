@@ -1,9 +1,11 @@
 package it.enaip.stage.controller;
 
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -17,8 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import User.UserStuff;
-import it.enaip.stage.model.Stuff;
+import it.enaip.stage.dao.DaoUser;
+import it.enaip.stage.model.User;
+import it.enaip.stage.model.User.Status;
 
 /**
  * Servlet implementation class UserController
@@ -26,7 +29,7 @@ import it.enaip.stage.model.Stuff;
 @WebServlet("/UserController")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 private UserStuff StuffUser =  UserStuff.getInstance();
+	 private DaoUser UserDao =  DaoUser.getInstance();
 	 private static  final Logger LOGGER = Logger.getLogger(UserController.class.getName());
 	 
 	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,13 +66,16 @@ public class UserController extends HttpServlet {
 	             }    
 	        } catch(SQLException e){
 	            LOGGER.log(Level.SEVERE,"SQL Error", e);
-	        }
+	        } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	
 	}
 
 
 
-	private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+	private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws ParseException, IOException, SQLException {
 			int id  = Integer.parseInt(req.getParameter("id"));
 	        String name = req.getParameter("name");
 	        String surname = req.getParameter("surname");
@@ -80,19 +86,21 @@ public class UserController extends HttpServlet {
 	        Date parsedDate = dateFormat.parse(time);
 	        Timestamp creationTime = new java.sql.Timestamp(parsedDate.getTime());
 	        int age = Integer.parseInt(req.getParameter("age"));
-	        Type type = req.getParameter("type");
+	        String tipo = req.getParameter("type");
+	        Status type = Status.valueOf(tipo);
 	        User newuser= new User(id,name,surname,birthDate,creationTime,age,type);
 	        UserDao.update(newuser);
-	         resp.sendRedirect("StuffController?op=list");
+	         resp.sendRedirect("UserController?op=list");
        
 		
 	}
 
 
 
-	private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {
+	private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
 		 	String id =req.getParameter("id");
-	        Optional<User> existingUser = UserDao.find(id);
+		 	int index= Integer.parseInt(id);
+	        Optional<User> existingUser = UserDao.find(index);
 	        RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/UserForm.jsp");
 	        existingUser.ifPresent(s->req.setAttribute("user", s));
 	        dispatcher.forward(req, resp);
@@ -101,31 +109,32 @@ public class UserController extends HttpServlet {
 
 
 
-	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) {
+	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
 		int id  = Integer.parseInt(req.getParameter("id"));
-        User user = new User(id)
-        UserDao.delete(User);
+        User user = new User(id);
+        UserDao.delete(user);
         resp.sendRedirect("UserController?op=list");
 		
 	}
 
 
 
-	private void insertUser(HttpServletRequest req, HttpServletResponse resp) {
+	private void insertUser(HttpServletRequest req, HttpServletResponse resp) throws ParseException, SQLException, IOException {
 		
 		int id =0  ;
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String date = req.getParameter("birthDate");
-        Date birthDate = new SimpleDateFormat("MM/dd/yyyy").parse(date);
+        Date birthdate = new SimpleDateFormat("MM/dd/yyyy").parse(date);
         String time = req.getParameter("creationTime");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         Date parsedDate = dateFormat.parse(time);
-        Timestamp creationTime = new java.sql.Timestamp(parsedDate.getTime());
+        Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
         int age = Integer.parseInt(req.getParameter("age"));
-        Type type = req.getParameter("type");
+        String tipo=req.getParameter("type");
+        Status type = Status.valueOf(tipo);
         
-        User newuser = new User(id,name,surname,date,creationTime,age,type);
+        User newuser = new User(id,name,surname,birthdate,creationtime,age,type);
         UserDao.save(newuser);
          resp.sendRedirect("UserController?op=list");
 		
@@ -133,7 +142,7 @@ public class UserController extends HttpServlet {
 
 
 
-	private void showNewForm(HttpServletRequest req, HttpServletResponse resp) {
+	private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/UserForm.jsp");
         dispatcher.forward(req, resp);
 		

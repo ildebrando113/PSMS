@@ -1,7 +1,7 @@
 package it.enaip.stage.model;
 
-import java.security.Timestamp;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class User {
 	public enum Status {
@@ -25,6 +25,9 @@ public class User {
 		this.creationtime = creationtime;
 		this.age = age;
 		this.type = type;
+	}
+	public User(int id) {
+		this.id=id;
 	}
 
 	public int getId() {
