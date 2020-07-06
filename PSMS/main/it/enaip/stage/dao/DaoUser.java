@@ -37,10 +37,10 @@ public class DaoUser implements UserDao {
        //String sql= "SELECT stuff_id,name,description,location FROM stuff WHERE stuff_id=?";
        int age=0;
        String name="";
-       String surname;
-       Date birthdate;
-       Timestamp creationtime;
-       Status type;
+       String surname="";
+       Date birthdate=null;
+       Timestamp creationtime=null;
+       Status type=null;
        stmt.setInt(1, id);
        ResultSet resultSet = stmt.executeQuery();
       
@@ -71,57 +71,73 @@ public class DaoUser implements UserDao {
     }
     @Override
     public List<User> findAll() throws SQLException{
-        
-        List<User> liststuff = new ArrayList<>();
+        Status type=null;
+        List<User> listuser= new ArrayList<>();
         Connection conn =DataSourceFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement("select  STUFF_ID,NAME,DESCRIPTION,QUANTITY,LOCATION from STUFF");
+        PreparedStatement stmt=conn.prepareStatement("select  id,name,surname,birthdate,creationtime,age,type from users");
         ResultSet resultSet = stmt.executeQuery();
          while (resultSet.next()){
-          int id_stuff = resultSet.getInt("stuff_id");
+          int id = resultSet.getInt("stuff_id");
           String name= resultSet.getString("name");
-          String description= resultSet.getString("description");
-          int quantity= resultSet.getInt("quantity");
-          String location= resultSet.getString("location");
-          User stuff = new  User(id_stuff,name,description,quantity,location);
-          liststuff.add(stuff);
+         String surname= resultSet.getString("surname");
+         Date birthdate = resultSet.getDate("birthdate");
+          Timestamp creationtime = resultSet.getTimestamp("creationtime");
+        int  age= resultSet.getInt("age");
+        String fromDB = resultSet.getString("type");
+        if (fromDB.contains("C")) {
+     	   type = type.CHILD;
+        }else if (fromDB.contains("O")) {
+     	   type = type.OWNER;
+        }else if (fromDB.contains("S")) {
+     	   type = type.SPOUSE;
+        }
+        else{
+     	   return null;
+        }
+          User user = new  User(id, name, surname, birthdate, creationtime, age, type);
+          listuser.add(user);
            
         }
         
-       return liststuff; 
+       return listuser; 
     }
     @Override
-    public boolean update (User stuff) throws SQLException{
+    public boolean update (User user) throws SQLException{
         boolean rowUpdated= false;
         Connection conn =DataSourceFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement("UPDATE  stuff SET name=?,description=?,quantity=?,location=? WHERE stuff_id=?");
-        stmt.setString(1, stuff.getName());
-        stmt.setString(2, stuff.getDescription());
-        stmt.setInt(3, stuff.getQuantity());
-        stmt.setString(4, stuff.getLocation());
-        stmt.setInt(5, stuff.getId());
+        PreparedStatement stmt=conn.prepareStatement("UPDATE  users SET name=?,surname=?,birthdate=?,creationtime=?,age=?,type=?,id=? WHERE id=?");
+        stmt.setString(1, user.getName());
+        stmt.setString(2, user.getSurname());
+        stmt.setDate(3, (Date) user.getBirthdate());
+        stmt.setTimestamp(4, user.getCreationtime());
+        stmt.setInt(5, user.getAge());
+        stmt.setString(6, user.getStatus().toString());
+        stmt.setInt(7,user.getId());
         rowUpdated = stmt.executeUpdate()>0;
         return rowUpdated;
         
     }
     @Override
-    public boolean save (User stuff) throws SQLException{
+    public boolean save (User user) throws SQLException{
         boolean rowInserted= false;
         DaoUser da= DaoUser.getInstance();
         int index= da.getMaxIndex();
         index+=1;
-        stuff.setId(index);
+        user.setId(index);
         try {
         	
         
         Connection conn =DataSourceFactory.getConnection();
        
-        PreparedStatement stmt=conn.prepareStatement("INSERT INTO stuff (name,description,quantity,location,stuff_id) VALUES (?,?,?,?,?)");
+        PreparedStatement stmt=conn.prepareStatement("INSERT INTO users (name,surname,birthdate,creationtime,age,type,id) VALUES (?,?,?,?,?,?,?)");
        
-        stmt.setString(1, stuff.getName());
-        stmt.setString(2, stuff.getDescription());
-        stmt.setInt(3, stuff.getQuantity());
-        stmt.setString(4, stuff.getLocation());
-        stmt.setInt(5,stuff.getId());
+        stmt.setString(1, user.getName());
+        stmt.setString(2, user.getSurname());
+        stmt.setDate(3, (Date) user.getBirthdate());
+        stmt.setTimestamp(4, user.getCreationtime());
+        stmt.setInt(5, user.getAge());
+        stmt.setString(6, user.getStatus().toString());
+        stmt.setInt(7,user.getId());
         rowInserted = stmt.executeUpdate()>0;
         }catch(Exception e) {
         	System.out.println(e.getMessage());} 
@@ -130,11 +146,11 @@ public class DaoUser implements UserDao {
     }
     
     @Override
-    public boolean delete (User stuff) throws SQLException{
+    public boolean delete (User user) throws SQLException{
         boolean rowDeleted = false;
         Connection conn =DataSourceFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement("DELETE FROM stuff Where stuff_id=?");
-        stmt.setInt(1,stuff.getId());
+        PreparedStatement stmt=conn.prepareStatement("DELETE FROM users Where id=?");
+        stmt.setInt(1,user.getId());
         rowDeleted = stmt.executeUpdate()>0;
         return rowDeleted;
                 
@@ -144,7 +160,7 @@ public class DaoUser implements UserDao {
     	try {
     		 Connection conn =DataSourceFactory.getConnection();
     		 Statement stmt = conn.createStatement();
-    		 stmt.execute("SELECT MAX(stuff_id) FROM stuff");
+    		 stmt.execute("SELECT MAX(id) FROM users");
     		 ResultSet rs = stmt.getResultSet(); // 
     				  if (rs.next()) {
     					   maxID = rs.getInt(1);
