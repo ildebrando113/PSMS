@@ -14,8 +14,8 @@
     
     		
     	<nav class="mdl-navigation mdl-layout--large-screen-only">
-    	<a class= "mdl-navigation__link" href="/PSMS/StuffController?op=new">Add new staff</a>
-    	<a class= "mdl-navigation__link" href="/PSMS/StuffController?op=list">List new staff</a>
+    	<a class= "mdl-navigation__link" href="/PSMS_ver1/StuffController?op=new">Add new staff</a>
+    	<a class= "mdl-navigation__link" href="/PSMS_ver1/StuffController?op=list">List new staff</a>
     	</nav>	
     	</div>
         </header>
@@ -23,8 +23,8 @@
         <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">PSMS</span>
         <nav class= "mdl-navigation">
-        <a class ="mdl-navigation__link" href="/PSMS/StuffController?op=new">Add new stuff</a>
-        <a class ="mdl-navigation__link" href="/PSMS/StuffController?op=list">List all stuff</a>
+        <a class ="mdl-navigation__link" href="/PSMS_ver1/StuffController?op=new">Add new stuff</a>
+        <a class ="mdl-navigation__link" href="/PSMS_ver1/StuffController?op=list">List all stuff</a>
         
         </nav>
         </div>

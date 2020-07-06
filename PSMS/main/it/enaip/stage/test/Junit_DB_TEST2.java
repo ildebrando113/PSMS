@@ -8,7 +8,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import it.enaip.stage.dao.DaoStuff;
 import it.enaip.stage.dao.DataSourceFactory;
+import it.enaip.stage.model.Stuff;
 
 
 class Junit_DB_TEST2 {
@@ -46,16 +49,18 @@ class Junit_DB_TEST2 {
 		
 	}
 	
-	
+	*/
 	@Test
 	void testSave()  throws Exception{
 		boolean rowsave= false;
+		
 		DaoStuff dao = DaoStuff.getInstance();
+		
 		Stuff stuff = new Stuff(0, "test-new", "test-desc",1, "test-loc");
 		rowsave=dao.save(stuff);
 		assertEquals(true, rowsave);
 	}
-	
+	/*
 	@Test
 	void deleteTest() throws Exception {
 	
