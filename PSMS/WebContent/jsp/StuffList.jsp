@@ -21,10 +21,12 @@
 								<tr>
 									<th class="mdl-data-table_cell--non-numeric">NO</th>
 									<th>Name</th>
-									<th>Description</th>
-									<th>Quantity</th>
-									<th>Location</th>
-									<th>Action</th>
+									<th>Surname</th>
+									<th>Birthdate</th>
+									<th>Creation Time</th>
+									<th>Age</th>
+									<th>Id</th>
+									<th>Type</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -34,9 +36,13 @@
 									<tr>
 										<td class="mdl-data-table_cell--non-numeric"><c:out value="${count}" /></td>
 										<td><c:out value="${stuff.name}" /></td>
-										<td><c:out value="${stuff.description}" /></td>
-										<td><c:out value="${stuff.quantity}" /></td>
-										<td><c:out value="${stuff.location}" /></td>
+										<td><c:out value="${stuff.surname}" /></td>
+										<td><c:out value="${stuff.birthdate}" /></td>
+										<td><c:out value="${stuff.creationtime}" /></td>
+										<td><c:out value="${stuff.age}" /></td>
+										<td><c:out value="${stuff.id}" /></td>
+										<td><c:out value="${stuff.type}" /></td>
+										
 										<td><a href="StuffController?op=edit&id=<c:out value='${stuff.id}' />">Edit</a>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 											<a href="StuffController?op=delete&id=<c:out value='${stuff.id}' />">Delete</a>

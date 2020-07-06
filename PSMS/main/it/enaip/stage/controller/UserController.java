@@ -53,7 +53,6 @@ public class UserController extends HttpServlet {
 	            case "edit" :
 	                showEditForm(req,resp);
 	                break;
-	                
 	             case "update" :
 	                updateUser(req,resp);
 	                break;  
