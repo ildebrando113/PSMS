@@ -9,9 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.enaip.stage.dao.DaoStuff;
+import it.enaip.stage.dao.DaoUser;
 import it.enaip.stage.dao.DataSourceFactory;
-import it.enaip.stage.model.Stuff;
+import it.enaip.stage.model.User;
 
 
 class Junit_DB_TEST2 {
@@ -54,9 +54,9 @@ class Junit_DB_TEST2 {
 	void testSave()  throws Exception{
 		boolean rowsave= false;
 		
-		DaoStuff dao = DaoStuff.getInstance();
+		DaoUser dao = DaoUser.getInstance();
 		
-		Stuff stuff = new Stuff(0, "test-new", "test-desc",1, "test-loc");
+		User stuff = new User(0, "test-new", "test-desc",1, "test-loc");
 		rowsave=dao.save(stuff);
 		assertEquals(true, rowsave);
 	}
