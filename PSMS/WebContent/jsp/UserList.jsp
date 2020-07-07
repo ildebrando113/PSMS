@@ -31,7 +31,7 @@
 							</thead>
 							<tbody>
 								<c:set var="count" value="0" scope="page" />
-								<c:forEach var="user" items="${listUser}">
+								<c:forEach var="user" items="${userList}">
 									<c:set var="count" value="${count + 1}" scope="page" />
 									<tr>
 										<td class="mdl-data-table_cell--non-numeric"><c:out value="${count}" /></td>
@@ -41,7 +41,7 @@
 										<td><c:out value="${user.creationtime}" /></td>
 										<td><c:out value="${user.age}" /></td>
 										<td><c:out value="${user.id}" /></td>
-										<td><c:out value="${user.type}" /></td>
+										<!--<td><c:out value="${user.type}" /></td>-->
 										
 										<td><a href="UserController?op=edit&id=<c:out value='${user.id}' />">Edit</a>
 											&nbsp;&nbsp;&nbsp;&nbsp;

@@ -72,26 +72,7 @@
                                                            <label class ="mdl-textfield__label" for ="type"> Type C=child,O=owner,S=spouse</label>
                                                 </div>
                                                 
-<%--                                                 <div class="mdl.textfield mdl-js-textfield">
-                                                    <c:choose>
-                                                        <c:when test= "${user!=null}">
-                                                            <input class  ="mdl-textfield__input" type="text" name="quantity" value="<c:out value='${user.quantity}'/>" id="quantity"/>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <input class  ="mdl-textfield__input" type="text" name="quantity" value="<c:out value='1'/>" id="quantity"/>  
-                                                        </c:otherwise> 
-                                                    </c:choose>  
-                                                    <label 
-                                                        class="mdl-textfield__label" for="quantity">Quantity</label>
-     --%>                                            </div>
-<%-- 
-
-                                                <div class="mdl-textfield mdl-js-textfield">
-                                                    <input class="mdl-textfield__input" type="text" name="location"
-                                                           value="<c:out value ='${user.location}'/>" id="location" /> <label
-                                                           class ="mdl-textfield__label" for="location" >Location</label>
-                                                </div>
-                                                 --%>
+											
                                                 <input type="submit"
                                                        class ="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
                                                        value="save">

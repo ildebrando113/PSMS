@@ -78,7 +78,7 @@ public class DaoUser implements UserDao {
         PreparedStatement stmt=conn.prepareStatement("select  id,name,surname,birthdate,creationtime,age,type from users");
         ResultSet resultSet = stmt.executeQuery();
          while (resultSet.next()){
-          int id = resultSet.getInt("stuff_id");
+          int id = resultSet.getInt("id");
           String name= resultSet.getString("name");
          String surname= resultSet.getString("surname");
          Date birthdate = resultSet.getDate("birthdate");
