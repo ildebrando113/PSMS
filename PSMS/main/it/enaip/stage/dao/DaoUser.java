@@ -4,7 +4,7 @@ import it.enaip.stage.model.User;
 import it.enaip.stage.model.User.Status;
 import java.sql.Timestamp;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,11 +54,11 @@ public class DaoUser implements UserDao {
            age= resultSet.getInt("age");
            String fromDB = resultSet.getString("type");
            if (fromDB.contains("C")) {
-        	   type = type.CHILD;
+        	   type = type.C;
            }else if (fromDB.contains("O")) {
-        	   type = type.OWNER;
+        	   type = type.O;
            }else if (fromDB.contains("S")) {
-        	   type = type.SPOUSE;
+        	   type = type.S;
            }
            else{
         	   return null;
@@ -72,6 +72,7 @@ public class DaoUser implements UserDao {
     @Override
     public List<User> findAll() throws SQLException{
         Status type=null;
+        
         List<User> listuser= new ArrayList<>();
         Connection conn =DataSourceFactory.getConnection();
         PreparedStatement stmt=conn.prepareStatement("select  id,name,surname,birthdate,creationtime,age,type from users");
@@ -81,15 +82,16 @@ public class DaoUser implements UserDao {
           String name= resultSet.getString("name");
          String surname= resultSet.getString("surname");
          Date birthdate = resultSet.getDate("birthdate");
+       
           Timestamp creationtime = resultSet.getTimestamp("creationtime");
         int  age= resultSet.getInt("age");
         String fromDB = resultSet.getString("type");
         if (fromDB.contains("C")) {
-     	   type = type.CHILD;
+     	   type = type.C;
         }else if (fromDB.contains("O")) {
-     	   type = type.OWNER;
+     	   type = type.O;
         }else if (fromDB.contains("S")) {
-     	   type = type.SPOUSE;
+     	   type = type.S;
         }
         else{
      	   return null;
@@ -108,7 +110,7 @@ public class DaoUser implements UserDao {
         PreparedStatement stmt=conn.prepareStatement("UPDATE  users SET name=?,surname=?,birthdate=?,creationtime=?,age=?,type=?,id=? WHERE id=?");
         stmt.setString(1, user.getName());
         stmt.setString(2, user.getSurname());
-        stmt.setDate(3, (Date) user.getBirthdate());
+        stmt.setDate(3,(java.sql.Date) user.getBirthdate());
         stmt.setTimestamp(4, user.getCreationtime());
         stmt.setInt(5, user.getAge());
         stmt.setString(6, user.getStatus().toString());
@@ -133,14 +135,17 @@ public class DaoUser implements UserDao {
        
         stmt.setString(1, user.getName());
         stmt.setString(2, user.getSurname());
-        stmt.setDate(3, (Date) user.getBirthdate());
+        java.sql.Date sqlDatebirthdate = new java.sql.Date(user.getBirthdate().getTime());
+        stmt.setDate(3, sqlDatebirthdate);
         stmt.setTimestamp(4, user.getCreationtime());
         stmt.setInt(5, user.getAge());
         stmt.setString(6, user.getStatus().toString());
         stmt.setInt(7,user.getId());
         rowInserted = stmt.executeUpdate()>0;
         }catch(Exception e) {
-        	System.out.println(e.getMessage());} 
+        	System.out.println(e.getMessage());
+        	System.out.println(e.getStackTrace());
+        	} 
         return rowInserted;
         
     }

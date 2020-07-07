@@ -79,10 +79,10 @@ public class UserController extends HttpServlet {
 	        String name = req.getParameter("name");
 	        String surname = req.getParameter("surname");
 	        String date = req.getParameter("birthDate");
-	        Date birthDate = new SimpleDateFormat("MM/dd/yyyy").parse(date);
+	        Date birthDate =  new SimpleDateFormat("dd/MM/yyyy").parse(date);
 	        String time = req.getParameter("creationTime");
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-	        Date parsedDate = dateFormat.parse(time);
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+	        Date parsedDate =  dateFormat.parse(time);
 	        Timestamp creationTime = new java.sql.Timestamp(parsedDate.getTime());
 	        int age = Integer.parseInt(req.getParameter("age"));
 	        String tipo = req.getParameter("type");
@@ -123,16 +123,16 @@ public class UserController extends HttpServlet {
 		int id =0  ;
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
-        String date = req.getParameter("birthDate");
-        Date birthdate = new SimpleDateFormat("MM/dd/yyyy").parse(date);
-        String time = req.getParameter("creationTime");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-        Date parsedDate = dateFormat.parse(time);
+        String date = req.getParameter("birthdate");
+        Date birthdate =  new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        String time = req.getParameter("creationtime");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date parsedDate =  dateFormat.parse(time);
         Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
         int age = Integer.parseInt(req.getParameter("age"));
         String tipo=req.getParameter("type");
         Status type = Status.valueOf(tipo);
-        
+       
         User newuser = new User(id,name,surname,birthdate,creationtime,age,type);
         UserDao.save(newuser);
          resp.sendRedirect("UserController?op=list");

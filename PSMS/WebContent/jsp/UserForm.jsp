@@ -47,17 +47,17 @@
                                                 </div>
 												
 												<div class="mdl-textfield mdl-js-textfield">
-                                                    <input class=" mdl-textfield__input" type="date"
+                                                    <input class=" mdl-textfield__input" type="text" 
                                                            name="birthdate"
                                                            value="<c:out value='${user.birthdate}'/>" id="birthdate"/>
-                                                    <label class="mdl-textfield__label" for="birthdate">Birthdate</label>
+                                                    <label class="mdl-textfield__label" for="birthdate">Birthdate dd/MM/yyyy</label>
                                                  </div>
                                                  
                                                  <div class="mdl-textfield mdl-js-textfield">
-                                                    <input class=" mdl-textfield__input" type="time"
+                                                    <input class=" mdl-textfield__input" type="text"
                                                            name="creationtime"
                                                            value="<c:out value='${user.creationtime}'/>" id="Creation Timestamp"/>
-                                                    <label class="mdl-textfield__label" for="creationtime">Creation Timestamp</label>
+                                                    <label class="mdl-textfield__label" for="creationtime">Creation Timestamp dd/MM/yyyy HH:mm</label>
                                                  </div>
                                                  
                                                 <div class="mdl-textfield mdl-js-textfield">
@@ -69,7 +69,7 @@
                                                 <div class="mdl-textfield mdl-js-textfield">
                                                     <input class="mdl-textfield__input" type="text" name="type"
                                                            value="<c:out value='${user.type}'/>" id="type"/> 
-                                                           <label class ="mdl-textfield__label" for ="type"> Type</label>
+                                                           <label class ="mdl-textfield__label" for ="type"> Type C=child,O=owner,S=spouse</label>
                                                 </div>
                                                 
 <%--                                                 <div class="mdl.textfield mdl-js-textfield">

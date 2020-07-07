@@ -5,7 +5,8 @@ import java.util.Date;
 
 public class User {
 	public enum Status {
-		CHILD, OWNER, SPOUSE
+		C, O,S
+		//C=child,O=owner,S=spouse
 	}
 
 	protected int id;
