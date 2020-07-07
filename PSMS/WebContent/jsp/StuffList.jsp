@@ -31,21 +31,21 @@
 							</thead>
 							<tbody>
 								<c:set var="count" value="0" scope="page" />
-								<c:forEach var="stuff" items="${listStuff}">
+								<c:forEach var="user" items="${listUser}">
 									<c:set var="count" value="${count + 1}" scope="page" />
 									<tr>
 										<td class="mdl-data-table_cell--non-numeric"><c:out value="${count}" /></td>
-										<td><c:out value="${stuff.name}" /></td>
-										<td><c:out value="${stuff.surname}" /></td>
-										<td><c:out value="${stuff.birthdate}" /></td>
-										<td><c:out value="${stuff.creationtime}" /></td>
-										<td><c:out value="${stuff.age}" /></td>
-										<td><c:out value="${stuff.id}" /></td>
-										<td><c:out value="${stuff.type}" /></td>
+										<td><c:out value="${user.name}" /></td>
+										<td><c:out value="${user.surname}" /></td>
+										<td><c:out value="${user.birthdate}" /></td>
+										<td><c:out value="${user.creationtime}" /></td>
+										<td><c:out value="${user.age}" /></td>
+										<td><c:out value="${user.id}" /></td>
+										<td><c:out value="${user.type}" /></td>
 										
-										<td><a href="StuffController?op=edit&id=<c:out value='${stuff.id}' />">Edit</a>
+										<td><a href="UserController?op=edit&id=<c:out value='${user.id}' />">Edit</a>
 											&nbsp;&nbsp;&nbsp;&nbsp;
-											<a href="StuffController?op=delete&id=<c:out value='${stuff.id}' />">Delete</a>
+											<a href="UserController?op=delete&id=<c:out value='${user.id}' />">Delete</a>
 										</td>
 									</tr>
 								</c:forEach>

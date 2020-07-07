@@ -67,8 +67,8 @@
                                                 </div>
                                                 
                                                 <div class="mdl-textfield mdl-js-textfield">
-                                                    <input class="mdl-textfield__input" type="ENUM" name="type"
-                                                           value="<c:out value='${user.age}'/>" id="type"/> 
+                                                    <input class="mdl-textfield__input" type="text" name="type"
+                                                           value="<c:out value='${user.type}'/>" id="type"/> 
                                                            <label class ="mdl-textfield__label" for ="type"> Type</label>
                                                 </div>
                                                 
