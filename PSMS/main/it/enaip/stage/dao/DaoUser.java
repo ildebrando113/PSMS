@@ -54,11 +54,11 @@ public class DaoUser implements UserDao {
            age= resultSet.getInt("age");
            String fromDB = resultSet.getString("type");
            if (fromDB.contains("C")) {
-        	   type = type.C;
+        	   type = Status.C;
            }else if (fromDB.contains("O")) {
-        	   type = type.O;
+        	   type = Status.O;
            }else if (fromDB.contains("S")) {
-        	   type = type.S;
+        	   type = Status.S;
            }
            else{
         	   return null;
@@ -87,11 +87,12 @@ public class DaoUser implements UserDao {
         int  age= resultSet.getInt("age");
         String fromDB = resultSet.getString("type");
         if (fromDB.contains("C")) {
-     	   type = type.C;
+     	   type = User.Status.C;
+     	   
         }else if (fromDB.contains("O")) {
-     	   type = type.O;
+        	type = User.Status.O;
         }else if (fromDB.contains("S")) {
-     	   type = type.S;
+        	type = User.Status.S;
         }
         else{
      	   return null;
@@ -115,7 +116,7 @@ public class DaoUser implements UserDao {
         stmt.setDate(3, sqlDatebirthdate);
         stmt.setTimestamp(4, user.getCreationtime());
         stmt.setInt(5, user.getAge());
-        stmt.setString(6, user.getStatus().toString());
+        stmt.setString(6, user.getType().toString());
         stmt.setInt(7,user.getId());
         rowUpdated = stmt.executeUpdate()>0;
         return rowUpdated;
@@ -141,7 +142,7 @@ public class DaoUser implements UserDao {
         stmt.setDate(3, sqlDatebirthdate);
         stmt.setTimestamp(4, user.getCreationtime());
         stmt.setInt(5, user.getAge());
-        stmt.setString(6, user.getStatus().toString());
+        stmt.setString(6, user.getType().toString());
         stmt.setInt(7,user.getId());
         rowInserted = stmt.executeUpdate()>0;
         }catch(Exception e) {

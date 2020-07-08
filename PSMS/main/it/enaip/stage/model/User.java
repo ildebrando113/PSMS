@@ -79,11 +79,11 @@ public class User {
 		this.age = age;
 	}
 
-	public Status getStatus() {
+	public Status getType() {
 		return type;
 	}
 
-	public void setStatus(Status type) {
+	public void setType(Status type) {
 		this.type = type;
 	}
 

@@ -41,8 +41,7 @@
 										<td><c:out value="${user.creationtime}" /></td>
 										<td><c:out value="${user.age}" /></td>
 										<td><c:out value="${user.id}" /></td>
-										
-										
+										<td><c:out value="${user.type}" /></td>
 										<td><a href="UserController?op=edit&id=<c:out value='${user.id}' />">Edit</a>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 											<a href="UserController?op=delete&id=<c:out value='${user.id}' />">Delete</a>
