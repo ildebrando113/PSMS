@@ -33,7 +33,7 @@ public class DaoUser implements UserDao {
     public Optional<User> find(Integer id) throws SQLException{
        
        Connection conn =DataSourceFactory.getConnection();
-       PreparedStatement stmt=conn.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM stuff WHERE stuff_id=?");
+       PreparedStatement stmt=conn.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM users WHERE id=?");
        //String sql= "SELECT stuff_id,name,description,location FROM stuff WHERE stuff_id=?";
        int age=0;
        String name="";
@@ -96,6 +96,7 @@ public class DaoUser implements UserDao {
         else{
      	   return null;
         }
+        
           User user = new  User(id, name, surname, birthdate, creationtime, age, type);
           listuser.add(user);
            
@@ -107,10 +108,11 @@ public class DaoUser implements UserDao {
     public boolean update (User user) throws SQLException{
         boolean rowUpdated= false;
         Connection conn =DataSourceFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement("UPDATE  users SET name=?,surname=?,birthdate=?,creationtime=?,age=?,type=?,id=? WHERE id=?");
+        PreparedStatement stmt=conn.prepareStatement("UPDATE  users SET name=?,surname=?,birthdate=?,creationtime=?,age=?,type=? WHERE id=?");
         stmt.setString(1, user.getName());
         stmt.setString(2, user.getSurname());
-        stmt.setDate(3,(java.sql.Date) user.getBirthdate());
+        java.sql.Date sqlDatebirthdate = new java.sql.Date(user.getBirthdate().getTime());
+        stmt.setDate(3, sqlDatebirthdate);
         stmt.setTimestamp(4, user.getCreationtime());
         stmt.setInt(5, user.getAge());
         stmt.setString(6, user.getStatus().toString());

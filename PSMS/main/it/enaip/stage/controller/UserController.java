@@ -65,7 +65,7 @@ public class UserController extends HttpServlet {
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "SQL Error", e);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -76,23 +76,23 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("id"));
 		String name = req.getParameter("name");
 		String surname = req.getParameter("surname");
-		String date = req.getParameter("birthDate");
-		Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-		String time = req.getParameter("creationTime");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+		String date = req.getParameter("birthdate");
+		Date birthdate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+		String time = req.getParameter("creationtime");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date parsedDate = dateFormat.parse(time);
-		Timestamp creationTime = new java.sql.Timestamp(parsedDate.getTime());
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
 		int age = Integer.parseInt(req.getParameter("age"));
 		String tipo = req.getParameter("type");
 		Status type = Status.valueOf(tipo);
-		User newuser = new User(id, name, surname, birthDate, creationTime, age, type);
-		UserDao.update(newuser);
+		User user = new User(id, name, surname, birthdate, creationtime, age, type);
+		UserDao.update(user);
 		resp.sendRedirect("UserController?op=list");
 
 	}
 
 	private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
-			throws SQLException, ServletException, IOException {
+		throws SQLException, ServletException, IOException {
 		String id = req.getParameter("id");
 		int index = Integer.parseInt(id);
 		Optional<User> existingUser = UserDao.find(index);

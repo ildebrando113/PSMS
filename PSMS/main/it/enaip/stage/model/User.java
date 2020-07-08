@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class User {
 	public enum Status {
-		C, O,S
+		C,O,S
 		//C=child,O=owner,S=spouse
 	}
 

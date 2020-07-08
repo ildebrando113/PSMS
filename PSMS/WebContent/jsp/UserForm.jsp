@@ -68,7 +68,7 @@
                                                 
                                                 <div class="mdl-textfield mdl-js-textfield">
                                                     <input class="mdl-textfield__input" type="text" name="type"
-                                                           value="<c:out value='${user.type}'/>" id="type"/> 
+                                                           value="<c:out value="missing type"/>" id="type"/> 
                                                            <label class ="mdl-textfield__label" for ="type"> Type C=child,O=owner,S=spouse</label>
                                                 </div>
                                                 
