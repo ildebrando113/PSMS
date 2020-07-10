@@ -3,12 +3,15 @@ package it.enaip.stage.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class User {
 	public enum Status {
 		C,O,S
 		//C=child,O=owner,S=spouse
 	}
-
+	
 	protected int id;
 	protected String name;
 	protected String surname;
@@ -16,7 +19,8 @@ public class User {
 	protected Timestamp creationtime;
 	protected int age;
 	protected Status type;
-
+	private userToJson JsonConverterUser;
+	public User() {};
 	public User(int id, String name, String surname, Date birthdate, Timestamp creationtime, int age, Status type) {
 		super();
 		this.id = id;
@@ -86,5 +90,7 @@ public class User {
 	public void setType(Status type) {
 		this.type = type;
 	}
-
+	public JSONObject getJsonObject() throws JSONException {
+		return JsonConverterUser.userToJson(this);
+	}
 }

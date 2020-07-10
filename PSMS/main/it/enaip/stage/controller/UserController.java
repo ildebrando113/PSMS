@@ -19,7 +19,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import it.enaip.stage.dao.DaoUser;
+
 import it.enaip.stage.model.User;
 import it.enaip.stage.model.User.Status;
 
@@ -144,5 +148,28 @@ public class UserController extends HttpServlet {
 		req.setAttribute("userList", userList);
 		dispatcher.forward(req, resp);
 	}
+	/*
+	public  JSONObject GetJasonUserList() throws ServletException, IOException, SQLException {
+		
+		List<User> userList = UserDao.findAll();
+		
+		JSONObject jason =  new JSONObject(userList);
+		
+		System.out.println(jason.toString());
+		return jason;
+		
+	}
+	*/
+	public JSONObject getJson(String id) throws SQLException, JSONException {
+		User user = new User();
+		int i = Integer.parseInt(id);
+		DaoUser dao = DaoUser.getInstance();
+		user =  dao.findUser(i);
+		JSONObject jobj = user.getJsonObject();
+		return jobj;
+		
+	}
+	
+
 
 }

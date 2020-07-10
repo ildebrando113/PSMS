@@ -1,23 +1,30 @@
 package it.enaip.stage.dao;
 
-import it.enaip.stage.model.User;
-import it.enaip.stage.model.User.Status;
-import java.sql.Timestamp;
+
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import org.json.JSONObject;
+
+import it.enaip.stage.model.User;
+import it.enaip.stage.model.User.Status;
+import it.enaip.stage.model.userToJson;
+
+
 
 
 
 public class DaoUser implements UserDao {
     
-    private DaoUser(){}
+  private DaoUser(){}
 
     private static class SingletonHelper{
         
@@ -65,6 +72,8 @@ public class DaoUser implements UserDao {
            }
            
         }
+       
+       //conn.close();
        return Optional.of(new User(id,name,surname,birthdate,creationtime,age,type));
        
         
@@ -178,7 +187,45 @@ public class DaoUser implements UserDao {
     	}
 		return maxID;
     }
-
-
+    
+    public User findUser(Integer id ) throws SQLException{
+    	Connection conn =DataSourceFactory.getConnection();
+        PreparedStatement stmt=conn.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM users WHERE id=?");
+        //String sql= "SELECT stuff_id,name,description,location FROM stuff WHERE stuff_id=?";
+        int age=0;
+        String name="";
+        String surname="";
+        Date birthdate=null;
+        Timestamp creationtime=null;
+        Status type=null;
+        stmt.setInt(1, id);
+        ResultSet resultSet = stmt.executeQuery();
+        if(resultSet.next()){
+            id = resultSet.getInt("id");
+            name= resultSet.getString("name");
+            surname= resultSet.getString("surname");
+            birthdate = resultSet.getDate("birthdate");
+            creationtime = resultSet.getTimestamp("creationtime");
+            age= resultSet.getInt("age");
+            String fromDB = resultSet.getString("type");
+            if (fromDB.contains("C")) {
+         	   type = Status.C;
+            }else if (fromDB.contains("O")) {
+         	   type = Status.O;
+            }else if (fromDB.contains("S")) {
+         	   type = Status.S;
+            }
+            else{
+         	   return null;
+            }
+            
+            
+            
+            
+         }
+        return (new User(id,name,surname,birthdate,creationtime,age,type));
+        
+     }
 	
 }
+
