@@ -138,7 +138,7 @@ public class UserController extends HttpServlet {
 
 	}
 
-	private void showNewForm(HttpServletRequest req, HttpServletResponse resp) 
+	public void showNewForm(HttpServletRequest req, HttpServletResponse resp) 
 	throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/UserForm.jsp");
@@ -153,18 +153,7 @@ public class UserController extends HttpServlet {
 		req.setAttribute("userList", userList);
 		dispatcher.forward(req, resp);
 	}
-	/*
-	public  JSONObject GetJasonUserList() throws ServletException, IOException, SQLException {
-		
-		List<User> userList = UserDao.findAll();
-		
-		JSONObject jason =  new JSONObject(userList);
-		
-		System.out.println(jason.toString());
-		return jason;
-		
-	}
-	*/
+	
 	public JSONObject getJson(String id) throws SQLException, JSONException {
 		User user = new User();
 		int i = Integer.parseInt(id);

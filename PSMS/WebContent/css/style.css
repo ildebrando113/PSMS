@@ -3,6 +3,10 @@
 	align-items: center;
 	justify-content: center;
 }
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
 
 .mdl-layout__content {
 	padding: 24px;

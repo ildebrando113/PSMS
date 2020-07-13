@@ -16,7 +16,7 @@
 				<div class="mdl-cell mdl-cell--4-col">
 					<div>
 						<table
-							class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+							class="center mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 							<thead>
 								<tr>
 									<th class="mdl-data-table_cell--non-numeric">NO</th>
