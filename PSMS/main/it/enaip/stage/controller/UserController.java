@@ -41,7 +41,8 @@ public class UserController extends HttpServlet {
 		doGet(request, response);
 	}
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+	throws ServletException, IOException {
 
 		String op = req.getParameter("op");
 		try {
@@ -72,11 +73,11 @@ public class UserController extends HttpServlet {
 			
 			e.printStackTrace();
 		}
-
 	}
 
 	private void updateUser(HttpServletRequest req, HttpServletResponse resp)
-			throws ParseException, IOException, SQLException {
+	throws ParseException, IOException, SQLException {
+		
 		int id = Integer.parseInt(req.getParameter("id"));
 		String name = req.getParameter("name");
 		String surname = req.getParameter("surname");
@@ -96,7 +97,8 @@ public class UserController extends HttpServlet {
 	}
 
 	private void showEditForm(HttpServletRequest req, HttpServletResponse resp)
-		throws SQLException, ServletException, IOException {
+	throws SQLException, ServletException, IOException {
+		
 		String id = req.getParameter("id");
 		int index = Integer.parseInt(id);
 		Optional<User> existingUser = UserDao.find(index);
@@ -106,7 +108,8 @@ public class UserController extends HttpServlet {
 
 	}
 
-	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) 
+	throws SQLException, IOException {
 		int id = Integer.parseInt(req.getParameter("id"));
 		User user = new User(id);
 		UserDao.delete(user);
@@ -135,14 +138,16 @@ public class UserController extends HttpServlet {
 
 	}
 
-	private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void showNewForm(HttpServletRequest req, HttpServletResponse resp) 
+	throws ServletException, IOException {
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/UserForm.jsp");
 		dispatcher.forward(req, resp);
-
 	}
 
 	private void userList(HttpServletRequest req, HttpServletResponse resp)
-		throws ServletException, IOException, SQLException {
+	throws ServletException, IOException, SQLException {
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/UserList.jsp");
 		List<User> userList = UserDao.findAll();
 		req.setAttribute("userList", userList);
@@ -169,7 +174,4 @@ public class UserController extends HttpServlet {
 		return jobj;
 		
 	}
-	
-
-
 }
