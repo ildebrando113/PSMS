@@ -88,22 +88,23 @@ class DaoUserTest {
 		assertTrue(jobj.has("creationtime"));
 	}
 
-	
 	@Test
 	@Order(5)
+	void canFindUser() throws SQLException {
+		boolean expected = false;
+		User test = daoUser.findUser(user.getId());
+
+		if (test.getId()==user.getId()) {
+			expected=true;
+		}
+		assertEquals(true, expected);
+	}
+	
+	@Test
+	@Order(6)
 	void canDeleteUser() throws ParseException, SQLException {
         boolean expected = daoUser.delete(user);
 		assertEquals(true, expected);		
-	}
-
-
-	@Test
-	@Order(6)
-	public void testShowForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		UserController controller = new UserController();
-		controller.showNewForm(req, resp);
-		boolean expected = 
-		assertEquals(true, expected);
 	}
 	
 	
