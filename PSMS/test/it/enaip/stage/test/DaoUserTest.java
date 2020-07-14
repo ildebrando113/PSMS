@@ -2,25 +2,17 @@ package it.enaip.stage.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -64,6 +56,19 @@ class DaoUserTest {
 	void canSaveNewUser() throws ParseException, SQLException {
 		boolean expected = daoUser.save(user);
 		assertEquals(true, expected);		
+	}
+	
+	@Test
+	@Order(3)
+	void cannotSaveNewUserWithNameEmpty() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "", "test_surname", date, creationtime, 19, Status.C);
+		
+		boolean expected = daoUser.save(user);
+		assertEquals(false, expected);		
 	}
 	/*
 	@Test
