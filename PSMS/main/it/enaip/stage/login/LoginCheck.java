@@ -1,11 +1,20 @@
 package it.enaip.stage.login;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import it.enaip.stage.dao.DaoUser;
+import it.enaip.stage.dao.DataSourceFactory;
 
 /**
  * Servlet implementation class LoginCheck
@@ -18,11 +27,20 @@ public class LoginCheck extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
-		if (name.equals("java") && password.equals("1234")) {
+		
+		DaoUser user = DaoUser.getInstance();
+		if (user.checkLogin(name, password)) {
 			response.sendRedirect("jsp/menu.jsp");
+		}
+		else {
+			response.sendRedirect("jsp/failLogin.jsp");
+		}
+			
+			
 			
 		}
-		}
+							
+		
 	
 	/*
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

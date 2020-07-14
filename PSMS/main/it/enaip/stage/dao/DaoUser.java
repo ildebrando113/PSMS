@@ -226,6 +226,26 @@ public class DaoUser implements UserDao {
         return (new User(id,name,surname,birthdate,creationtime,age,type));
         
      }
+    
+    	public boolean checkLogin(String uname,String pass) {
+    		Connection conn =DataSourceFactory.getConnection();
+	        try {
+				PreparedStatement stmt=conn.prepareStatement("select * from login where username =? and password =?");
+				stmt.setString(1, uname);
+				stmt.setString(2, pass);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()) {
+					return true ;
+				}
+			
+	        
+	        } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+    		
+    	}
 	
 }
 
