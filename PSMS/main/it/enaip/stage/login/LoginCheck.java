@@ -20,6 +20,7 @@ public class LoginCheck extends HttpServlet {
 		String password = request.getParameter("password");
 		if (name.equals("java") && password.equals("1234")) {
 			response.sendRedirect("jsp/menu.jsp");
+			
 		}
 		}
 	
