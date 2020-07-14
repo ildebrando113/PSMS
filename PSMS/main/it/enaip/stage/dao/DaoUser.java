@@ -73,7 +73,7 @@ public class DaoUser implements UserDao {
            
         }
        
-       //conn.close();
+       
        return Optional.of(new User(id,name,surname,birthdate,creationtime,age,type));
        
         

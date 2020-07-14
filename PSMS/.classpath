@@ -20,5 +20,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ENAIP09/Downloads/jwebunit-3.2-release.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
