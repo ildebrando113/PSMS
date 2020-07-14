@@ -90,13 +90,11 @@ class DaoUserTest {
 		assertTrue(jobj.has("creationtime"));
 	}
 
-	
-	
-
 
 	@Test
 	@Order(5)
 	void canFindUser() throws SQLException {
+
 	boolean expected = false;
 	User test = daoUser.findUser(user.getId());
 	
@@ -124,8 +122,11 @@ class DaoUserTest {
 		 
 	}
 	*/
+
+	
 	@Test
-	@Order(7)
+	@Order(6)
+
 	void canDeleteUser() throws ParseException, SQLException {
         boolean expected = daoUser.delete(user);
 		assertEquals(true, expected);		
