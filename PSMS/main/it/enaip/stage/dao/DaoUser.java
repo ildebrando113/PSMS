@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 
 import it.enaip.stage.model.User;
 import it.enaip.stage.model.User.Status;
@@ -133,6 +134,7 @@ public class DaoUser implements UserDao {
     }
     @Override
     public boolean save (User user) throws SQLException{
+   // 	Assert.assertNotEquals("", user.getName());
         boolean rowInserted= false;
         DaoUser da= DaoUser.getInstance();
         int index= da.getMaxIndex();

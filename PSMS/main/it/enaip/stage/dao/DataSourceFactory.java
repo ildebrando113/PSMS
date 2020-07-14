@@ -23,8 +23,8 @@ public class DataSourceFactory {
 
             conn = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:xe",
-                     "DAVIDE",
-                     "Admin1234"
+                     "otto",
+                     "otto"
             );
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
