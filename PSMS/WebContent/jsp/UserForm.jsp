@@ -5,6 +5,7 @@
 <!doctype html>
 <html lang ="en">
     <%@include file="../jsp/head.jsp" %>
+    
     <body>
         <div class ="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <%@include file="../jsp/menu.jsp" %>
