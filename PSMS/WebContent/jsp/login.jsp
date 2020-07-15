@@ -5,7 +5,13 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login page</title>
-
+<link rel="stylesheet" href="%PATH%/theme.css" />
+    <link rel="stylesheet" type="text/css" href="%PATH%/font-awesome.css" />
+    <link rel="stylesheet" href="%PATH%/jquery-ui.css" />
+    <link rel="stylesheet" href="%PATH%/primeui.min.css" />
+    <script type="text/javascript" src="%PATH%/jquery.js"></script>
+    <script type="text/javascript" src="%PATH%/jquery-ui.js"></script>
+    <script type="text/javascript" src="%PATH%/primeui.min.js"></script>
 </head>
 <body>
 	<form  name ="myForm" method ="post" action ="/PSMS_ver1/LoginCheck">
