@@ -91,6 +91,6 @@ public class User {
 		this.type = type;
 	}
 	public JSONObject getJsonObject() throws JSONException {
-		return JsonConverterUser.userToJson(this);
+		return JsonConverterUser.funtionUserToJson(this);
 	}
 }
