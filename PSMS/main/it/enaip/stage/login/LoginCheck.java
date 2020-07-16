@@ -38,7 +38,7 @@ public class LoginCheck extends HttpServlet {
 				response.sendRedirect("jsp/failLogin.jsp");
 			}
 		}    catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
