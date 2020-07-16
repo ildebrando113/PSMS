@@ -20,6 +20,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/ENAIP09/Downloads/primeui-4.1.15.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

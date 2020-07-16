@@ -13,6 +13,7 @@ import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -34,7 +35,7 @@ class DaoUserTest {
 	
 	private DaoUser daoUser = DaoUser.getInstance();
 	private User user;
-
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
@@ -58,25 +59,13 @@ class DaoUserTest {
 		assertEquals(true, expected);		
 	}
 	
-	@Test
-	@Order(3)
-	void cannotSaveNewUserWithNameEmpty() throws ParseException, SQLException {
-		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
-		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
-		user = new User(daoUser.getMaxIndex(), "", "test_surname", date, creationtime, 19, Status.C);
-		
-		boolean expected = daoUser.save(user);
-		assertEquals(false, expected);		
-	}
 	/*
 	@Test
 	@Order(3)
 	void canUpdateUser() throws ParseException, SQLException {
-		user.setName("test_name_modified");
-//		user.setId(user.getId());
-        boolean expected = daoUser.update(user);
+		userOk.setName("test_name_modified");
+//		userOk.setId(userOk.getId());
+        boolean expected = daoUser.update(userOk);
 		assertEquals(true, expected);		
 	}
 	*/
@@ -95,7 +84,6 @@ class DaoUserTest {
 		assertTrue(jobj.has("creationtime"));
 	}
 
-
 	@Test
 	@Order(5)
 	void canFindUser() throws SQLException {
@@ -110,17 +98,18 @@ class DaoUserTest {
 	
 	assertEquals(true, expected);		
 	}
+
 	/*
 	@Test
 	@Order(6)
     void canFindAll() throws SQLException {
 		 boolean expected = false;
-		 List<User> listuser= new ArrayList<>();
+		 List<User> listuserOk= new ArrayList<>();
 		 listuser=daoUser.findAll();
 		 int index = daoUser.getMaxIndex();
 		 index--;
 		 User test=listuser.get(index);
-		 if (test.getId()==user.getId()) {
+		 if (test.getId()==userOk.getId()) {
 			 expected= true ;
 		 }
 		 assertEquals(true,expected);
@@ -128,7 +117,6 @@ class DaoUserTest {
 	}
 	*/
 
-	
 	@Test
 	@Order(6)
 
@@ -137,5 +125,111 @@ class DaoUserTest {
 		assertEquals(true, expected);		
 	}
 	
+	@Test
+	void cannotSaveNewUserWithEmptyName() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "", "test_surname", date, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+	@Test
+	void cannotSaveNewUserWithNullName() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), null, "test_surname", date, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+	@Test
+	void cannotSaveNewUserWithEmptySurname() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "", date, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+	@Test
+	void cannotSaveNewUserWithNullSurname() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", null, date, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
 
+	@Test
+	void cannotSaveBirthdateNullDate() throws ParseException, SQLException {
+//		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", null, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+	@Test
+	void cannotSaveCreationtimeNullDate() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+//		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, null, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+//	The field Age does not allow the user to type anything else than a number
+//	@Test
+//	void cannotSaveNewUserWithNullAge() throws ParseException, SQLException {
+//		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+//		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+//		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, creationtime, 0, Status.C);
+//		
+//		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//			daoUser.save(user);
+//		  });
+//	
+//	}
+	@Test
+	void cannotSaveNewUserWithNegativeAge() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, creationtime, -10, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
 }
+

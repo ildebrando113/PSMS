@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class userToJson {
-	public static JSONObject userToJson(User user) throws JSONException {
+	public static JSONObject funtionUserToJson(User user) throws JSONException {
 		JSONObject jobj = new JSONObject();
 		String str = "";
 		int in = 0;

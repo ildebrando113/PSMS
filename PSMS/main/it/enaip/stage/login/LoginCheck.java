@@ -1,9 +1,10 @@
 package it.enaip.stage.login;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+//import java.sql.Connection;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -11,10 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
 
 import it.enaip.stage.dao.DaoUser;
-import it.enaip.stage.dao.DataSourceFactory;
+//import it.enaip.stage.dao.DataSourceFactory;
 
 /**
  * Servlet implementation class LoginCheck
@@ -36,10 +37,7 @@ public class LoginCheck extends HttpServlet {
 			else {
 				response.sendRedirect("jsp/failLogin.jsp");
 			}
-		}    catch (SQLException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
+		}    catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

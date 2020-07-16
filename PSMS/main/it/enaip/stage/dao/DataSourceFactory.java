@@ -7,7 +7,6 @@ package it.enaip.stage.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 /**
  *
@@ -23,13 +22,11 @@ public class DataSourceFactory {
 
             conn = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:xe",
-                     "DAVIDE",
-                     "Admin1234"
+                     "otto",
+                     "otto"
             );
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            System.out.println("ERRORE");
-        
+        } catch (Exception e) {
+        	throw(new RuntimeException(e));
         }
 
         return conn;
