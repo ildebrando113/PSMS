@@ -13,6 +13,13 @@
 <style type="text/css">
 <%@ include file="../css/style.css"%>
 </style>
+<link rel="stylesheet" href="../PrimeUitheme.css" />
+    <link rel="stylesheet" type="text/css" href="../PrimeUifont-awesome.css" />
+    <link rel="stylesheet" href="../PrimeUi/jquery-ui.css" />
+    <link rel="stylesheet" href="../PrimeUi/primeui.min.css" />
+    <script type="text/javascript" src="../PrimeUi/jquery.js"></script>
+    <script type="text/javascript" src="../PrimeUi/jquery-ui.js"></script>
+    <script type="text/javascript" src="../PrimeUi/primeui.min.js"></script>
 </head>
 <!--[if lt IE 9]>
 	<script src=""https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
