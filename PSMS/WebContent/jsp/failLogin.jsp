@@ -12,5 +12,7 @@
 <h:body>
 	<h1>Wrong username or password</h1>
 	<a href="login.jsp">Come back to login</a>
+	<h:outputText>Hello Man, how are you? </h:outputText>
+	<p:inputTextarea value="#{bean.propertyName}" />
 </h:body>
 </html>

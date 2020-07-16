@@ -24,10 +24,10 @@
                                     </div>
                                     <div class ="mdl-card__supporting-text">
                                         <c:if test="${user !=null}">
-                                            <form name="myForm" action="/PSMS_ver1/UserController?op=update" method="post" onsubmit ="return validateForm()">
+                                            <form> name="myForm" action="/PSMS_ver1/UserController?op=update" method="post" onsubmit ="return validateForm()"</form>
                                             </c:if>
                                             <c:if test="${user ==null}">
-                                                <form name="myForm" action="/PSMS_ver1/UserController?op=insert" method="post" onsubmit = "return validateForm()">
+                                                <form> name="myForm" action="/PSMS_ver1/UserController?op=insert" method="post" onsubmit = "return validateForm()"</form>
                                                 </c:if>
                                                 <c:if test="${user !=null}">
                                                     <input type="hidden" name="id"
@@ -77,7 +77,6 @@
                                                 <input type="submit"
                                                        class ="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
                                                        value="save">
-                                            </form>
                                     </div>
                                 </div>
                             </div>

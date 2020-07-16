@@ -177,5 +177,59 @@ class DaoUserTest {
 		  });
 	
 	}
+
+	@Test
+	void cannotSaveBirthdateNullDate() throws ParseException, SQLException {
+//		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", null, creationtime, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
 	
+	}
+	@Test
+	void cannotSaveCreationtimeNullDate() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+//		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, null, 19, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
+//	The field Age does not allow the user to type anything else than a number
+//	@Test
+//	void cannotSaveNewUserWithNullAge() throws ParseException, SQLException {
+//		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+//		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+//		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, creationtime, 0, Status.C);
+//		
+//		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//			daoUser.save(user);
+//		  });
+//	
+//	}
+	@Test
+	void cannotSaveNewUserWithNegativeAge() throws ParseException, SQLException {
+		Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2001");	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date parsedDate = dateFormat.parse("10/05/1980 17:30");
+		Timestamp creationtime = new java.sql.Timestamp(parsedDate.getTime());
+		user = new User(daoUser.getMaxIndex(), "test_name", "test_surname", date, creationtime, -10, Status.C);
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			daoUser.save(user);
+		  });
+	
+	}
 }
+

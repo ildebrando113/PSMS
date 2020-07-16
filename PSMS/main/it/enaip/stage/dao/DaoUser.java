@@ -126,6 +126,32 @@ public class DaoUser implements UserDao {
 		int index= da.getMaxIndex();
 		index+=1;
 		user.setId(index);
+		if (user.getName() == null) {
+			throw new IllegalArgumentException("Username cannot be null");
+		}
+		if (user.getName().isEmpty()) {
+			throw new IllegalArgumentException("UserName cannot be empty");
+		}
+		if (user.getSurname() == null) {
+			throw new IllegalArgumentException("UserSurname cannot be null");
+		}
+		
+		if (user.getSurname().isEmpty()) {
+			throw new IllegalArgumentException("UserSurname cannot be empty");
+		}
+		if (user.getBirthdate() == null) {
+			throw new IllegalArgumentException("Birthdate cannot be null");
+		}
+		if (user.getCreationtime() == null) {
+			throw new IllegalArgumentException("Creationtime cannot be null");
+		}
+		if (user.getCreationtime() == null) {
+			throw new IllegalArgumentException("Creationtime cannot be null");
+		}
+		if (user.getAge() < 0) {
+			throw new IllegalArgumentException("Age cannot be negative");
+		}
+		
 		try {
 			Connection conn =DataSourceFactory.getConnection();
 			PreparedStatement stmt=conn.prepareStatement("INSERT INTO users (name,surname,birthdate,creationtime,age,type,id) VALUES (?,?,?,?,?,?,?)");
@@ -139,18 +165,6 @@ public class DaoUser implements UserDao {
 			stmt.setInt(7,user.getId());
 			rowInserted = stmt.executeUpdate()>0;
 			
-			if (user.getName() == null) {
-				throw new IllegalArgumentException("Username cannot be null");
-			}
-			if (user.getSurname() == null) {
-				throw new IllegalArgumentException("UserSurname cannot be null");
-			}
-			if (user.getName().isEmpty()) {
-				throw new IllegalArgumentException("UserName cannot be empty");
-			}
-			if (user.getSurname().isEmpty()) {
-				throw new IllegalArgumentException("UserSurname cannot be empty");
-			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getStackTrace());
