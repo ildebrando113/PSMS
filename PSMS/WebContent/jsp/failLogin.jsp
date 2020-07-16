@@ -12,5 +12,9 @@
 <h:body>
 	<h1>Wrong username or password</h1>
 	<a href="login.jsp">Come back to login</a>
+	<p:outputLabel>label</p:outputLabel>
+	<h2>PrimeFaces Autocomplete TextArea</h2>
+	<h:outputText value="Enter JavaTpoint for sugessions" />
+	<h:inputTextarea>text area</h:inputTextarea>
 </h:body>
 </html>

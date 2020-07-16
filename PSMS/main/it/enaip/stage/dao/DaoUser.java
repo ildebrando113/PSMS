@@ -69,12 +69,13 @@ public class DaoUser implements UserDao {
         	   type = Status.S;
            }
            else{
+        	   conn.close();
         	   return null;
            }
            
         }
        
-       
+       conn.close();
        return Optional.of(new User(id,name,surname,birthdate,creationtime,age,type));
        
         
@@ -105,15 +106,16 @@ public class DaoUser implements UserDao {
         	type = User.Status.S;
         }
         else{
+        	conn.close();
      	   return null;
         }
-        
+          
           User user = new  User(id, name, surname, birthdate, creationtime, age, type);
           listuser.add(user);
            
         }
-        
-       return listuser; 
+         conn.close();	
+         return listuser; 
     }
     @Override
     public boolean update (User user) throws SQLException{
@@ -129,6 +131,7 @@ public class DaoUser implements UserDao {
         stmt.setString(6, user.getType().toString());
         stmt.setInt(7,user.getId());
         rowUpdated = stmt.executeUpdate()>0;
+        conn.close();
         return rowUpdated;
         
     }
@@ -140,10 +143,11 @@ public class DaoUser implements UserDao {
         int index= da.getMaxIndex();
         index+=1;
         user.setId(index);
+        Connection conn =DataSourceFactory.getConnection();
         try {
         	
         
-        Connection conn =DataSourceFactory.getConnection();
+        
        
         PreparedStatement stmt=conn.prepareStatement("INSERT INTO users (name,surname,birthdate,creationtime,age,type,id) VALUES (?,?,?,?,?,?,?)");
        
@@ -159,7 +163,8 @@ public class DaoUser implements UserDao {
         }catch(Exception e) {
         	System.out.println(e.getMessage());
         	System.out.println(e.getStackTrace());
-        	} 
+        	}
+        conn.close();
         return rowInserted;
         
     }
@@ -171,13 +176,15 @@ public class DaoUser implements UserDao {
         PreparedStatement stmt=conn.prepareStatement("DELETE FROM users Where id=?");
         stmt.setInt(1,user.getId());
         rowDeleted = stmt.executeUpdate()>0;
+        conn.close();
         return rowDeleted;
                 
     }
     public int getMaxIndex() throws SQLException {
     	int maxID=0;
+    	Connection conn =DataSourceFactory.getConnection();
     	try {
-    		 Connection conn =DataSourceFactory.getConnection();
+    		 
     		 Statement stmt = conn.createStatement();
     		 stmt.execute("SELECT MAX(id) FROM users");
     		 ResultSet rs = stmt.getResultSet(); // 
@@ -187,6 +194,7 @@ public class DaoUser implements UserDao {
     	}catch(Exception e) {
     		System.out.println(e.getMessage());
     	}
+    	conn.close();
 		return maxID;
     }
     
@@ -218,6 +226,7 @@ public class DaoUser implements UserDao {
          	   type = Status.S;
             }
             else{
+               conn.close();
          	   return null;
             }
             
@@ -225,11 +234,12 @@ public class DaoUser implements UserDao {
             
             
          }
+        conn.close();
         return (new User(id,name,surname,birthdate,creationtime,age,type));
         
      }
     
-    	public boolean checkLogin(String uname,String pass) {
+    	public boolean checkLogin(String uname,String pass) throws SQLException {
     		Connection conn =DataSourceFactory.getConnection();
 	        try {
 				PreparedStatement stmt=conn.prepareStatement("select * from login where username =? and password =?");
@@ -237,6 +247,7 @@ public class DaoUser implements UserDao {
 				stmt.setString(2, pass);
 				ResultSet rs = stmt.executeQuery();
 				if (rs.next()) {
+					conn.close();
 					return true ;
 				}
 			
@@ -245,6 +256,7 @@ public class DaoUser implements UserDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	        conn.close();
 			return false;
     		
     	}

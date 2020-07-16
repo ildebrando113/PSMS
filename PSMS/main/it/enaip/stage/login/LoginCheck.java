@@ -29,11 +29,19 @@ public class LoginCheck extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		DaoUser user = DaoUser.getInstance();
-		if (user.checkLogin(name, password)) {
-			response.sendRedirect("jsp/menu.jsp");
-		}
-		else {
-			response.sendRedirect("jsp/failLogin.jsp");
+		try {
+			if (user.checkLogin(name, password)) {
+				response.sendRedirect("jsp/menu.jsp");
+			}
+			else {
+				response.sendRedirect("jsp/failLogin.jsp");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 			
 			
