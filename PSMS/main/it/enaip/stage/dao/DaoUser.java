@@ -256,6 +256,9 @@ public class DaoUser implements UserDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	        /*finally {
+				conn.close();
+			}*/
 	        conn.close();
 			return false;
     		
