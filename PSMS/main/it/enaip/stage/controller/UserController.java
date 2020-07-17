@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import it.enaip.stage.dao.DaoUser;
-
 import it.enaip.stage.model.User;
 import it.enaip.stage.model.User.Status;
 

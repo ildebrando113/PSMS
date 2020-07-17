@@ -22,8 +22,8 @@ public class DataSourceFactory {
 
             conn = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:xe",
-                     "otto",
-                     "otto"
+                     "DAVIDE",
+                     "Admin1234"
             );
         } catch (Exception e) {
         	throw(new RuntimeException(e));

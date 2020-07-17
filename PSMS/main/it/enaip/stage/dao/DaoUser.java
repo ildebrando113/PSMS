@@ -11,17 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-//import org.junit.Assert;
-
-//import org.json.JSONObject;
-//import org.junit.Assert;
-
 import it.enaip.stage.model.User;
 import it.enaip.stage.model.User.Status;
-//import it.enaip.stage.model.userToJson;
+
+
 
 public class DaoUser implements UserDao {
-// private DaoUser(){};
+	private DaoUser(){};
 	private static class SingletonHelper {
 		private static final DaoUser INSTANCE = new DaoUser();
 	}
@@ -32,12 +28,14 @@ public class DaoUser implements UserDao {
 
 	@Override
 	public Optional<User> find(Integer id) throws SQLException {
-
-		Connection conn = DataSourceFactory.getConnection();
-		PreparedStatement stmt = conn
+		Connection conn = null;
+		ResultSet resultSet=null;
+		PreparedStatement stmt=null;
+		try {
+			conn = DataSourceFactory.getConnection();
+			stmt = conn
 				.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM users WHERE id=?");
-// String sql= "SELECT stuff_id,name,description,location FROM stuff WHERE
-// stuff_id=?";
+
 		int age = 0;
 		String name = "";
 		String surname = "";
@@ -45,7 +43,7 @@ public class DaoUser implements UserDao {
 		Timestamp creationtime = null;
 		Status type = null;
 		stmt.setInt(1, id);
-		ResultSet resultSet = stmt.executeQuery();
+	    resultSet = stmt.executeQuery();
 
 		if (resultSet.next()) {
 			id = resultSet.getInt("id");
@@ -62,23 +60,30 @@ public class DaoUser implements UserDao {
 			} else if (fromDB.contains("S")) {
 				type = Status.S;
 			} else {
-				conn.close();
 				return null;
 			}
 		}
-		conn.close();
+		
 		return Optional.of(new User(id, name, surname, birthdate, creationtime, age, type));
+		}finally {
+			 try { resultSet.close(); } catch (Exception e) { /* ignored */ }
+			 try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			 try { conn.close(); } catch (Exception e) { /* ignored */ }
+		}
 	}
 
 	@Override
 	public List<User> findAll() throws SQLException {
+		Connection conn= null;
+		PreparedStatement stmt= null;
+		ResultSet resultSet = null;
 		Status type = null;
 		List<User> listuser = new ArrayList<>();
-
-		Connection conn = DataSourceFactory.getConnection();
-		PreparedStatement stmt = conn
+		try {
+		 conn = DataSourceFactory.getConnection();
+		 stmt = conn
 				.prepareStatement("select  id,name,surname,birthdate,creationtime,age,type from users");
-		ResultSet resultSet = stmt.executeQuery();
+		 resultSet = stmt.executeQuery();
 
 		while (resultSet.next()) {
 			int id = resultSet.getInt("id");
@@ -95,22 +100,32 @@ public class DaoUser implements UserDao {
 			} else if (fromDB.contains("S")) {
 				type = User.Status.S;
 			} else {
-				conn.close();
+				
 				return null;
 			}
 			User user = new User(id, name, surname, birthdate, creationtime, age, type);
 			listuser.add(user);
 		}
-		conn.close();
 		return listuser;
+		}finally {
+			try { resultSet.close(); } catch (Exception e) { /* ignored */ }
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+			
+		}
+		
+		
+		
 	}
 
 	@Override
 	public boolean update(User user) throws SQLException {
+		Connection conn= null;
+		PreparedStatement stmt= null;
 		boolean rowUpdated = false;
-
-		Connection conn = DataSourceFactory.getConnection();
-		PreparedStatement stmt = conn.prepareStatement(
+		try {
+		 conn = DataSourceFactory.getConnection();
+		 stmt = conn.prepareStatement(
 				"UPDATE  users SET name=?,surname=?,birthdate=?,creationtime=?,age=?,type=? WHERE id=?");
 		stmt.setString(1, user.getName());
 		stmt.setString(2, user.getSurname());
@@ -121,20 +136,27 @@ public class DaoUser implements UserDao {
 		stmt.setString(6, user.getType().toString());
 		stmt.setInt(7, user.getId());
 		rowUpdated = stmt.executeUpdate() > 0;
-		conn.close();
 		return rowUpdated;
+		}finally {
+			
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+		}
 	}
 
 	@Override
 	public boolean save(User user) throws SQLException {
-
+		Connection conn= null;
+		PreparedStatement stmt= null;
+		
 		boolean rowInserted = false;
 		DaoUser da = DaoUser.getInstance();
 		int index = da.getMaxIndex();
 		index += 1;
 		user.setId(index);
-
-		Connection conn = DataSourceFactory.getConnection();
+		
+		try {
+		conn = DataSourceFactory.getConnection();
 		if (user.getName() == null) {
 			throw new IllegalArgumentException("Username cannot be null");
 		}
@@ -160,7 +182,7 @@ public class DaoUser implements UserDao {
 		if (user.getAge() < 0) {
 			throw new IllegalArgumentException("Age cannot be negative");
 		}
-		PreparedStatement stmt = conn.prepareStatement(
+		 stmt = conn.prepareStatement(
 				"INSERT INTO users (name,surname,birthdate,creationtime,age,type,id) VALUES (?,?,?,?,?,?,?)");
 		stmt.setString(1, user.getName());
 		stmt.setString(2, user.getSurname());
@@ -171,35 +193,50 @@ public class DaoUser implements UserDao {
 		stmt.setString(6, user.getType().toString());
 		stmt.setInt(7, user.getId());
 		rowInserted = stmt.executeUpdate() > 0;
-		conn.close();
 		return rowInserted;
+		}finally {
+			
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+			
+		}
 	}
 
 	@Override
 	public boolean delete(User user) throws SQLException {
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean rowDeleted = false;
-		Connection conn = DataSourceFactory.getConnection();
-		PreparedStatement stmt = conn.prepareStatement("DELETE FROM users Where id=?");
+		try {
+	    conn = DataSourceFactory.getConnection();
+	    stmt = conn.prepareStatement("DELETE FROM users Where id=?");
 		stmt.setInt(1, user.getId());
 		rowDeleted = stmt.executeUpdate() > 0;
-		conn.close();
 		return rowDeleted;
+		}finally {
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+		}
+		
 	}
 
 	public User findUser(Integer id) throws SQLException {
-		Connection conn = DataSourceFactory.getConnection();
-		PreparedStatement stmt = conn
-				.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM users WHERE id=?");
-// String sql= "SELECT stuff_id,name,description,location FROM stuff WHERE
-// stuff_id=?";
+		Connection conn = null;
+		ResultSet resultSet=null;
+		PreparedStatement stmt=null;
 		int age = 0;
 		String name = "";
 		String surname = "";
 		Date birthdate = null;
 		Timestamp creationtime = null;
 		Status type = null;
+		try {
+		 conn = DataSourceFactory.getConnection();
+		 stmt = conn
+				.prepareStatement("SELECT id,name,surname,birthdate,creationtime,age,type FROM users WHERE id=?");
+	
 		stmt.setInt(1, id);
-		ResultSet resultSet = stmt.executeQuery();
+		 resultSet = stmt.executeQuery();
 		if (resultSet.next()) {
 			id = resultSet.getInt("id");
 			name = resultSet.getString("name");
@@ -215,48 +252,61 @@ public class DaoUser implements UserDao {
 			} else if (fromDB.contains("S")) {
 				type = Status.S;
 			} else {
-				conn.close();
+				
 				return null;
 			}
 		}
-		conn.close();
+		
 		return (new User(id, name, surname, birthdate, creationtime, age, type));
+		}finally {
+			try { resultSet.close(); } catch (Exception e) { /* ignored */ }
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+			
+		}
 	}
 
 	public int getMaxIndex() throws SQLException {
 		int maxID = 0;
-		Connection conn = DataSourceFactory.getConnection();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet resultSet = null;
 		try {
-			
-			Statement stmt = conn.createStatement();
+			conn = DataSourceFactory.getConnection();
+		    stmt = conn.createStatement();
 			stmt.execute("SELECT MAX(id) FROM users");
-			ResultSet rs = stmt.getResultSet(); //
-			if (rs.next()) {
-				maxID = rs.getInt(1);
+			resultSet = stmt.getResultSet(); //
+			if (resultSet.next()) {
+				maxID = resultSet.getInt(1);
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		conn.close();
+		
 		return maxID;
+		}finally {
+			try { resultSet.close(); } catch (Exception e) { /* ignored */ }
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+			
+		}
 	}
 
 	public boolean checkLogin(String uname, String pass) throws SQLException {
-		Connection conn = DataSourceFactory.getConnection();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
 		try {
-			PreparedStatement stmt = conn.prepareStatement("select * from login where username =? and password =?");
+			conn = DataSourceFactory.getConnection();
+			stmt = conn.prepareStatement("select * from login where username =? and password =?");
 			stmt.setString(1, uname);
 			stmt.setString(2, pass);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				conn.close();
+			resultSet = stmt.executeQuery();
+			if (resultSet.next()) {
 				return true;
 			}
-		} catch (SQLException e) {
-// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		conn.close();
 		return false;
+		}finally {
+			try { resultSet.close(); } catch (Exception e) { /* ignored */ }
+			try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			try { conn.close(); } catch (Exception e) { /* ignored */ }
+		}
 	}
 }
