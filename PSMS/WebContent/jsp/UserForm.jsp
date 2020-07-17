@@ -24,10 +24,10 @@
                                     </div>
                                     <div class ="mdl-card__supporting-text">
                                         <c:if test="${user !=null}">
-                                            <form> name="myForm" action="/PSMS_ver1/UserController?op=update" method="post" onsubmit ="return validateForm()"</form>
+                                            <form name="myForm" action="/PSMS_ver1/UserController?op=update" method="post" onsubmit ="return validateForm()">
                                             </c:if>
                                             <c:if test="${user ==null}">
-                                                <form> name="myForm" action="/PSMS_ver1/UserController?op=insert" method="post" onsubmit = "return validateForm()"</form>
+                                                <form name="myForm" action="/PSMS_ver1/UserController?op=insert" method="post" onsubmit = "return validateForm()">
                                                 </c:if>
                                                 <c:if test="${user !=null}">
                                                     <input type="hidden" name="id"
